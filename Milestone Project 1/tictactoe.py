@@ -1,6 +1,9 @@
-'''
+"""
+
 Play tic tac toe with a friend
-'''
+
+"""
+
 
 tic_tact_toe = {
     "upper_left": " ",
@@ -29,7 +32,7 @@ def display_board():
 
 
 def user_piece_choice(player):
-    valid_inputs = ["x","o"]
+    valid_inputs = ["x", "o"]
 
     choice = input(f"Please Choose X or O for {player}")
     if choice.lower() in valid_inputs:
@@ -56,7 +59,9 @@ def choose_move(player, valid_choice=False):
 
         if player_choice in range(1, 10):
             if update_board(player, player_choice):
-                pass
+                return True
+            else:
+                return False
 
 
 def update_board(player, choice):
@@ -71,7 +76,7 @@ def update_board(player, choice):
         8: "bottom_middle",
         9: "bottom_right",
     }
-    if len(tic_tact_toe[choices[choice]]) != 0:
+    if len(tic_tact_toe[choices[choice]]) != 1:
         tic_tact_toe[choices[choice]] = player_piece[player]
         return True
     else:
