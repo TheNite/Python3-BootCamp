@@ -34,7 +34,7 @@ def display_board():
 def user_piece_choice(player):
     valid_inputs = ["x", "o"]
 
-    choice = input(f"Please Choose X or O for {player}")
+    choice = input(f"Please Choose X or O for {player}: ")
     if choice.lower() in valid_inputs:
         if choice.lower() == "x":
             player_piece["player1"] = choice.upper()
@@ -100,14 +100,16 @@ def check_winner():
         return tic_tact_toe["upper_left"], True
     elif len(set(tic_tact_toe["bottom_right"], tic_tact_toe["middle_middle"], tic_tact_toe["upper_left"])) == 1:
         return tic_tact_toe["bottom_right"], True
+    else:
+        return False
 
 print("Welcome to Tic-Tac-Toe")
-# choice = user_piece_choice()
 
-# count = 1
-# for item in tic_tact_toe.keys():
-#     print(f'{count}:"{item}",')
-#     count += 1
-player_piece["player1"] = "X"
+display_board()
 
-check_winner()
+while True:
+    valid_input = user_piece_choice("player1")
+    if valid_input:
+        pass
+    choose_move("player1", True)
+    print(choose_move("player2", True))
