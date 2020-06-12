@@ -4,8 +4,6 @@ Play tic tac toe with a friend
 
 """
 
-import sys
-
 tic_tac_toe_board = {
     "upper_left": " ",
     "upper_middle": " ",
