@@ -4,6 +4,8 @@ Play tic tac toe with a friend
 
 """
 
+import sys
+
 tic_tac_toe_board = {
     "upper_left": " ",
     "upper_middle": " ",
@@ -47,8 +49,7 @@ def update_board(player, choice):
         8: "bottom_middle",
         9: "bottom_right",
     }
-    print(len(tic_tac_toe_board[choices[choice]]))
-    if tic_tac_toe_board[choices[choice]] == " ":
+    if tic_tac_toe_board[choices[choice]] != 1:
         tic_tac_toe_board[choices[choice]] = player_piece[player]
         return True
     else:
@@ -56,30 +57,22 @@ def update_board(player, choice):
 
 
 def check_winner():
-    if len(set([tic_tac_toe_board["upper_left"], tic_tac_toe_board["middle_left"],
-               tic_tac_toe_board["bottom_left"]])) == 1:
-        return [tic_tac_toe_board["upper_left"], True]
-    elif len(set([tic_tac_toe_board["upper_middle"], tic_tac_toe_board["middle_middle"],
-                 tic_tac_toe_board["bottom_middle"]])) == 1:
-        return [tic_tac_toe_board["upper_middle"], True]
-    elif len(set([tic_tac_toe_board["upper_right"], tic_tac_toe_board["middle_right"],
-                 tic_tac_toe_board["bottom_right"]])) == 1:
-        return [tic_tac_toe_board["upper_right"], True]
-    elif len(set([tic_tac_toe_board["upper_left"], tic_tac_toe_board["upper_middle"],
-                 tic_tac_toe_board["upper_right"]])) == 1:
-        return [tic_tac_toe_board["upper_left"], True]
-    elif len(set([tic_tac_toe_board["middle_left"], tic_tac_toe_board["middle_middle"],
-                 tic_tac_toe_board["middle_right"]])) == 1:
-        return [tic_tac_toe_board["middle_left"], True]
-    elif len(set([tic_tac_toe_board["bottom_left"], tic_tac_toe_board["bottom_middle"],
-                 tic_tac_toe_board["bottom_right"]])) == 1:
-        return [tic_tac_toe_board["bottom_left"], True]
-    elif len(set([tic_tac_toe_board["bottom_left"], tic_tac_toe_board["middle_middle"],
-                 tic_tac_toe_board["upper_right"]])) == 1:
-        return [tic_tac_toe_board["upper_left"], True]
-    elif len(set([tic_tac_toe_board["bottom_right"], tic_tac_toe_board["middle_middle"],
-                 tic_tac_toe_board["upper_left"]])) == 1:
-        return [tic_tac_toe_board["bottom_right"], True]
+    if tic_tac_toe_board["upper_left"] == tic_tac_toe_board["middle_left"] == tic_tac_toe_board["bottom_left"] != " ":
+        return [player_piece[tic_tac_toe_board["upper_left"]], True]
+    elif tic_tac_toe_board["upper_middle"] == tic_tac_toe_board["middle_middle"] == tic_tac_toe_board["bottom_middle"] != " ":
+        return [player_piece[tic_tac_toe_board["upper_middle"]], True]
+    elif tic_tac_toe_board["upper_right"] == tic_tac_toe_board["middle_right"] == tic_tac_toe_board["bottom_right"] != " ":
+        return [player_piece[tic_tac_toe_board["upper_right"]], True]
+    elif tic_tac_toe_board["upper_left"] == tic_tac_toe_board["upper_middle"] == tic_tac_toe_board["upper_right"] != " ":
+        return [player_piece[tic_tac_toe_board["upper_left"]], True]
+    elif tic_tac_toe_board["middle_left"] == tic_tac_toe_board["middle_middle"] == tic_tac_toe_board["middle_right"] !=  " ":
+        return [player_piece[tic_tac_toe_board["middle_left"]], True]
+    elif tic_tac_toe_board["bottom_left"] == tic_tac_toe_board["bottom_middle"] == tic_tac_toe_board["bottom_right"] != " ":
+        return [player_piece[tic_tac_toe_board["bottom_left"]], True]
+    elif tic_tac_toe_board["bottom_left"] == tic_tac_toe_board["middle_middle"] == tic_tac_toe_board["upper_right"] != " ":
+        return [player_piece[tic_tac_toe_board["bottom_left"]], True]
+    elif tic_tac_toe_board["bottom_right"] == tic_tac_toe_board["middle_middle"] == tic_tac_toe_board["upper_left"] != " ":
+        return [player_piece[tic_tac_toe_board["bottom_right"]], True]
     else:
         return False
 
@@ -108,7 +101,6 @@ def choose_move(player, valid_choice=False):
 
         try:
             player_choice = int(player_choice)
-            print("Try statement")
         except:
             print("Please enter a number 1-9")
 
@@ -125,36 +117,17 @@ print("Welcome to Tic-Tac-Toe")
 display_board()
 
 while True:
-    player, winner = check_winner()
-    if winner:
-        break
-
     valid_input = user_piece_choice("player1")
-
     if valid_input:
         while True:
-            player, winner = check_winner()
-
-            if winner:
-                clear_board_display()
-                display_board()
-                print(f"{player} has won the game!")
-                break
-
             player1_valid = choose_move("player1", True)
-
             if player1_valid:
-                player, winner = check_winner()
-                if winner:
-                    break
                 display_board()
                 while True:
-                    player, winner = check_winner()
-                    if winner:
-                        break
                     player2_valid = choose_move("player2", True)
                     if player2_valid:
                         display_board()
+                        check_winner()
                         break
                     else:
                         print("Please choose a valid Square!")
