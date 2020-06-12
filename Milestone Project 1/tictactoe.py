@@ -58,23 +58,23 @@ def update_board(player, choice):
 
 def check_winner():
     if tic_tac_toe_board["upper_left"] == tic_tac_toe_board["middle_left"] == tic_tac_toe_board["bottom_left"] != " ":
-        return [player_piece[tic_tac_toe_board["upper_left"]], True]
+        return [tic_tac_toe_board["upper_left"], True]
     elif tic_tac_toe_board["upper_middle"] == tic_tac_toe_board["middle_middle"] == tic_tac_toe_board["bottom_middle"] != " ":
-        return [player_piece[tic_tac_toe_board["upper_middle"]], True]
+        return [tic_tac_toe_board["upper_middle"], True]
     elif tic_tac_toe_board["upper_right"] == tic_tac_toe_board["middle_right"] == tic_tac_toe_board["bottom_right"] != " ":
-        return [player_piece[tic_tac_toe_board["upper_right"]], True]
+        return [tic_tac_toe_board["upper_right"], True]
     elif tic_tac_toe_board["upper_left"] == tic_tac_toe_board["upper_middle"] == tic_tac_toe_board["upper_right"] != " ":
-        return [player_piece[tic_tac_toe_board["upper_left"]], True]
+        return [tic_tac_toe_board["upper_left"], True]
     elif tic_tac_toe_board["middle_left"] == tic_tac_toe_board["middle_middle"] == tic_tac_toe_board["middle_right"] !=  " ":
-        return [player_piece[tic_tac_toe_board["middle_left"]], True]
+        return [tic_tac_toe_board["middle_left"], True]
     elif tic_tac_toe_board["bottom_left"] == tic_tac_toe_board["bottom_middle"] == tic_tac_toe_board["bottom_right"] != " ":
-        return [player_piece[tic_tac_toe_board["bottom_left"]], True]
+        return [tic_tac_toe_board["bottom_left"], True]
     elif tic_tac_toe_board["bottom_left"] == tic_tac_toe_board["middle_middle"] == tic_tac_toe_board["upper_right"] != " ":
-        return [player_piece[tic_tac_toe_board["bottom_left"]], True]
+        return [tic_tac_toe_board["bottom_left"], True]
     elif tic_tac_toe_board["bottom_right"] == tic_tac_toe_board["middle_middle"] == tic_tac_toe_board["upper_left"] != " ":
-        return [player_piece[tic_tac_toe_board["bottom_right"]], True]
+        return [tic_tac_toe_board["bottom_right"], True]
     else:
-        return False
+        return [False, False]
 
 
 def user_piece_choice(player):
@@ -111,23 +111,50 @@ def choose_move(player, valid_choice=False):
 def clear_board_display():
     print("\n" * 30)
 
+def get_key(player_piece_choice):
+    for key, value in player_piece.items():
+        if value == player_piece_choice:
+            return key
+
+def display_winner(player):
+    player = get_key(player)
+    if winner:
+        clear_board_display()
+        print(f'{player} has won the game!')
+        display_board()
+        return True
+
+    return False
 
 print("Welcome to Tic-Tac-Toe")
 
 display_board()
 
 while True:
+    player, winner = check_winner()
+    if winner:
+        break
+
     valid_input = user_piece_choice("player1")
     if valid_input:
         while True:
             player1_valid = choose_move("player1", True)
+            player, winner = check_winner()
+            if winner:
+                display_winner(player)
+                break
+
             if player1_valid:
                 display_board()
+
                 while True:
                     player2_valid = choose_move("player2", True)
+                    player, winner = check_winner()
+                    if winner:
+                        display_winner(player)
+
                     if player2_valid:
                         display_board()
-                        check_winner()
                         break
                     else:
                         print("Please choose a valid Square!")
