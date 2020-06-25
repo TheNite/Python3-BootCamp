@@ -26,6 +26,3 @@ class Hand:
 
     def __str__(self):
         return f'Current Cards: {self.current_cards()}\nTotal Value: {self.value}'
-
-    def adjust_for_ace(self):
-        pass
